@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculadora de Receita Azify</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <div id="app" class="container">
+      <header class="header">
+        <h1>Calcule sua oportunidade de receita</h1>
+        <p class="subtitle">Descubra quanto seu varejista pode ganhar com Banking as a Service</p>
+      </header>
+
+      <main class="calculator-wrapper">
+        <div class="calculator-inputs">
+          <h2>Qual é o seu potencial?</h2>
+          
+          <div class="input-group">
+            <label for="employees">
+              <span class="label-text">Número de Colaboradores</span>
+              <span class="label-hint">Base para contas de pagamento</span>
+            </label>
+            <div class="slider-container">
+              <input 
+                type="range" 
+                id="employees" 
+                min="10" 
+                max="5000" 
+                value="500" 
+                step="10"
+                class="slider"
+              />
+              <div class="slider-labels">
+                <span>10</span>
+                <span id="employees-value" class="value-display">500</span>
+                <span>5.000</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label for="tpv">
+              <span class="label-text">TPV Médio Mensal por Conta (R$)</span>
+              <span class="label-hint">Volume transacionado em serviços financeiros</span>
+            </label>
+            <div class="slider-container">
+              <input 
+                type="range" 
+                id="tpv" 
+                min="500" 
+                max="10000" 
+                value="2500" 
+                step="100"
+                class="slider"
+              />
+              <div class="slider-labels">
+                <span>R$ 500</span>
+                <span id="tpv-value" class="value-display">R$ 2.500</span>
+                <span>R$ 10.000</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label for="adoption">
+              <span class="label-text">Taxa de Ativação de Serviços (%)</span>
+              <span class="label-hint">Percentual de colaboradores que usarão serviços financeiros</span>
+            </label>
+            <div class="slider-container">
+              <input 
+                type="range" 
+                id="adoption" 
+                min="10" 
+                max="100" 
+                value="60" 
+                step="5"
+                class="slider"
+              />
+              <div class="slider-labels">
+                <span>10%</span>
+                <span id="adoption-value" class="value-display">60%</span>
+                <span>100%</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label for="margin">
+              <span class="label-text">Margem Média por Transação (%)</span>
+              <span class="label-hint">Percentual de receita retida pela plataforma</span>
+            </label>
+            <div class="slider-container">
+              <input 
+                type="range" 
+                id="margin" 
+                min="0.5" 
+                max="3" 
+                value="1.5" 
+                step="0.1"
+                class="slider"
+              />
+              <div class="slider-labels">
+                <span>0,5%</span>
+                <span id="margin-value" class="value-display">1,5%</span>
+                <span>3%</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label for="services">
+              <span class="label-text">Número de Serviços Adicionais</span>
+              <span class="label-hint">Crédito, seguros, cashback, etc.</span>
+            </label>
+            <div class="slider-container">
+              <input 
+                type="range" 
+                id="services" 
+                min="1" 
+                max="5" 
+                value="2" 
+                step="1"
+                class="slider"
+              />
+              <div class="slider-labels">
+                <span>1</span>
+                <span id="services-value" class="value-display">2</span>
+                <span>5</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label for="months">
+              <span class="label-text">Período de Projeção (meses)</span>
+              <span class="label-hint">Horizonte de análise</span>
+            </label>
+            <div class="slider-container">
+              <input 
+                type="range" 
+                id="months" 
+                min="3" 
+                max="60" 
+                value="12" 
+                step="3"
+                class="slider"
+              />
+              <div class="slider-labels">
+                <span>3</span>
+                <span id="months-value" class="value-display">12</span>
+                <span>60</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="calculator-results">
+          <div class="result-card main-result">
+            <div class="result-label">Receita Anualizada Estimada</div>
+            <div class="result-value" id="annual-revenue">R$ 0,00</div>
+            <div class="result-context" id="revenue-context">Baseado em seus parâmetros</div>
+          </div>
+
+          <div class="result-card">
+            <div class="result-label">Receita no Período</div>
+            <div class="result-value" id="period-revenue">R$ 0,00</div>
+            <div class="result-context">Período: <span id="period-months">12</span> meses</div>
+          </div>
+
+          <div class="result-card">
+            <div class="result-label">Contas Ativas</div>
+            <div class="result-value" id="active-accounts">0</div>
+            <div class="result-context">Com serviços ativados</div>
+          </div>
+
+          <div class="result-card">
+            <div class="result-label">Volume Transacionado (Anual)</div>
+            <div class="result-value" id="annual-tpv">R$ 0,00</div>
+            <div class="result-context">TPV processado</div>
+          </div>
+
+          <div class="chart-container">
+            <h3>Projeção de Receita Mensal</h3>
+            <canvas id="revenue-chart"></canvas>
+          </div>
+
+          <div class="insights">
+            <h3>Oportunidades Identificadas</h3>
+            <ul id="insights-list">
+              <li>Sua rede tem potencial para gerar receita significativa com Banking as a Service</li>
+            </ul>
+          </div>
+        </div>
+      </main>
+
+      <footer class="footer">
+        <p>Esta calculadora é indicativa e informacional. Para uma análise detalhada, entre em contato com nosso time.</p>
+      </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="module" src="/src/calculator.js"></script>
+  </body>
+</html>
