@@ -62,8 +62,14 @@
 
     .calculator-wrapper {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr;
       gap: 40px;
+    }
+
+    @media (max-width: 1400px) {
+      .calculator-wrapper {
+        grid-template-columns: 1fr 1fr;
+      }
     }
 
     @media (max-width: 1024px) {
@@ -143,6 +149,23 @@
       display: flex;
       flex-direction: column;
       gap: 20px;
+      grid-column: 2 / 3;
+    }
+
+    .calculator-results-right {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      grid-column: 3 / 4;
+    }
+
+    @media (max-width: 1400px) {
+      .calculator-results {
+        grid-column: auto;
+      }
+      .calculator-results-right {
+        grid-column: auto;
+      }
     }
 
     .result-card {
@@ -297,7 +320,7 @@
   <div class="container">
     <header class="header">
       <h1>Calcule sua oportunidade de receita</h1>
-      <p class="subtitle">Descubra quanto seu varejista pode ganhar com Banking as a Service</p>
+      <p class="subtitle">Descubra quanto sua empresa pode ganhar com Banking as a Service</p>
     </header>
 
     <main class="calculator-wrapper">
@@ -402,7 +425,7 @@
 
       <div class="calculator-results">
         <div class="result-card main-result">
-          <div class="result-label">Receita Anualizada Estimada</div>
+          <div class="result-label">Receita Anual Estimada</div>
           <div class="result-value" id="annual-revenue">R$ 0,00</div>
           <div class="result-context" id="revenue-context">Baseado em seus parâmetros</div>
         </div>
@@ -424,7 +447,9 @@
           <div class="result-value" id="annual-tpv">R$ 0,00</div>
           <div class="result-context">TPV processado</div>
         </div>
+      </div>
 
+      <div class="calculator-results-right">
         <div class="chart-container">
           <h3>Projeção de Receita Mensal</h3>
           <canvas id="revenue-chart"></canvas>
