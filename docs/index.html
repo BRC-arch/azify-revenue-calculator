@@ -1,829 +1,733 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Calculadora de Receita Azify</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Receita Azify - Modelo Conservador</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    :root {
-      --primary-color: #0066ff;
-      --secondary-color: #00d4aa;
-      --background: #f8f9fa;
-      --surface: #ffffff;
-      --text-primary: #1a1a1a;
-      --text-secondary: #666666;
-      --border-color: #e0e0e0;
-      --success-color: #10b981;
-      --radius: 12px;
-      --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: linear-gradient(135deg, #0054E6 0%, #00d4aa 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-      background: var(--background);
-      color: var(--text-primary);
-      line-height: 1.6;
-    }
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
 
-    .container {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 40px 20px;
-    }
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
 
-    .header {
-      text-align: center;
-      margin-bottom: 60px;
-    }
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
 
-    .header h1 {
-      font-size: 2.5rem;
-      font-weight: 700;
-      margin-bottom: 12px;
-      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
+        header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
 
-    .subtitle {
-      font-size: 1.1rem;
-      color: var(--text-secondary);
-      max-width: 600px;
-      margin: 0 auto;
-    }
+        .badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
 
-    .calculator-wrapper {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 40px;
-    }
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
 
-    @media (max-width: 1400px) {
-      .calculator-wrapper {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
 
-    @media (max-width: 1024px) {
-      .calculator-wrapper {
-        grid-template-columns: 1fr;
-      }
-    }
+        .card h2 {
+            font-size: 1.3em;
+            color: #0054E6;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
 
-    .calculator-inputs {
-      background: var(--surface);
-      padding: 40px;
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
+        .input-group {
+            margin-bottom: 25px;
+        }
 
-    .calculator-inputs h2 {
-      font-size: 1.5rem;
-      margin-bottom: 30px;
-      color: var(--text-primary);
-    }
+        .input-group label {
+            display: block;
+            font-size: 0.95em;
+            color: #333;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
 
-    .input-group {
-      margin-bottom: 35px;
-    }
+        .input-group input[type="range"] {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: #e0e0e0;
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+        }
 
-    .label-text {
-      display: block;
-      font-weight: 600;
-      font-size: 0.95rem;
-      color: var(--text-primary);
-      margin-bottom: 4px;
-    }
+        .input-group input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #0054E6;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 102, 255, 0.3);
+        }
 
-    .label-hint {
-      display: block;
-      font-size: 0.85rem;
-      color: var(--text-secondary);
-      font-weight: 400;
-    }
+        .input-group input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #0054E6;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 8px rgba(0, 102, 255, 0.3);
+        }
 
-    .slider {
-      width: 100%;
-      height: 6px;
-      border-radius: 3px;
-      background: var(--border-color);
-      outline: none;
-      -webkit-appearance: none;
-      appearance: none;
-      cursor: pointer;
-      margin: 12px 0 8px 0;
-    }
+        .input-value {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 8px;
+            font-size: 0.9em;
+            color: #666;
+        }
 
-    .slider::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      background: var(--primary-color);
-      cursor: pointer;
-      box-shadow: 0 2px 8px rgba(0, 102, 255, 0.3);
-    }
+        .value-display {
+            font-weight: 600;
+            color: #0054E6;
+        }
 
-    .slider-labels {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.8rem;
-      color: var(--text-secondary);
-    }
+        .services-group {
+            margin-bottom: 25px;
+        }
 
-    .value-display {
-      font-weight: 600;
-      color: var(--primary-color);
-    }
+        .services-group label {
+            display: block;
+            font-size: 0.95em;
+            color: #333;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
 
-    .calculator-results {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      grid-column: 2 / 3;
-    }
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
 
-    .calculator-results-right {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      grid-column: 3 / 4;
-    }
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            background: #f5f5f5;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
 
-    @media (max-width: 1400px) {
-      .calculator-results {
-        grid-column: auto;
-      }
-      .calculator-results-right {
-        grid-column: auto;
-      }
-    }
+        .checkbox-item:hover {
+            background: #efefef;
+        }
 
-    .result-card {
-      background: var(--surface);
-      padding: 24px;
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      border-left: 4px solid var(--primary-color);
-    }
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #0054E6;
+        }
 
-    .result-card.main-result {
-      background: linear-gradient(135deg, rgba(0, 102, 255, 0.05), rgba(0, 212, 170, 0.05));
-      padding: 32px;
-      order: -1;
-    }
+        .checkbox-label {
+            flex: 1;
+            cursor: pointer;
+            font-size: 0.95em;
+        }
 
-    .result-label {
-      font-size: 0.9rem;
-      color: var(--text-secondary);
-      font-weight: 500;
-      margin-bottom: 8px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
+        .checkbox-value {
+            font-size: 0.85em;
+            color: #999;
+            white-space: nowrap;
+        }
 
-    .result-value {
-      font-size: 2.2rem;
-      font-weight: 700;
-      color: var(--primary-color);
-      margin-bottom: 8px;
-    }
+        .results-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
 
-    .result-context {
-      font-size: 0.9rem;
-      color: var(--text-secondary);
-    }
+        .result-item {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #0054E6;
+        }
 
-    .chart-container {
-      background: var(--surface);
-      padding: 24px;
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      border-left: 4px solid var(--secondary-color);
-    }
+        .result-label {
+            font-size: 0.85em;
+            color: #666;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
 
-    .chart-container h3 {
-      font-size: 1.1rem;
-      margin-bottom: 16px;
-      color: var(--text-primary);
-    }
+        .result-value {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #0054E6;
+        }
 
-    #revenue-chart {
-      max-height: 300px;
-    }
+        .chart-container {
+            position: relative;
+            height: 350px;
+            margin-bottom: 30px;
+        }
 
-    .insights {
-      background: var(--surface);
-      padding: 24px;
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      border-left: 4px solid var(--success-color);
-    }
+        .insights {
+            background: #f0f7ff;
+            border-left: 4px solid #0054E6;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
 
-    .insights h3 {
-      font-size: 1.1rem;
-      margin-bottom: 16px;
-      color: var(--text-primary);
-    }
+        .insights h3 {
+            color: #0054E6;
+            font-size: 1.1em;
+            margin-bottom: 12px;
+        }
 
-    .insights ul {
-      list-style: none;
-    }
+        .insights ul {
+            list-style: none;
+            padding: 0;
+        }
 
-    .insights li {
-      padding: 8px 0;
-      padding-left: 24px;
-      position: relative;
-      color: var(--text-secondary);
-      font-size: 0.95rem;
-    }
+        .insights li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+            font-size: 0.95em;
+            color: #333;
+            line-height: 1.5;
+        }
 
-    .insights li:before {
-      content: "✓";
-      position: absolute;
-      left: 0;
-      color: var(--success-color);
-      font-weight: bold;
-    }
+        .insights li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #00d4aa;
+            font-weight: bold;
+        }
 
-    .footer {
-      text-align: center;
-      margin-top: 60px;
-      padding-top: 30px;
-      border-top: 1px solid var(--border-color);
-      color: var(--text-secondary);
-      font-size: 0.9rem;
-    }
+        .revenue-breakdown {
+            margin-top: 20px;
+        }
 
-    .services-checkboxes {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-top: 12px;
-    }
+        .revenue-breakdown h3 {
+            color: #0054E6;
+            font-size: 1em;
+            margin-bottom: 12px;
+        }
 
-    .service-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      padding: 12px;
-      border-radius: 8px;
-      border: 2px solid var(--border-color);
-      cursor: pointer;
-    }
+        .revenue-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 0.9em;
+        }
 
-    .service-item:hover {
-      border-color: var(--primary-color);
-      background: rgba(0, 102, 255, 0.02);
-    }
+        .revenue-item:last-child {
+            border-bottom: none;
+        }
 
-    .service-checkbox {
-      width: 20px;
-      height: 20px;
-      margin-top: 2px;
-      cursor: pointer;
-      accent-color: var(--primary-color);
-      flex-shrink: 0;
-    }
+        .revenue-label {
+            color: #666;
+        }
 
-    .service-item label {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      flex: 1;
-      cursor: pointer;
-      margin: 0;
-    }
+        .revenue-value {
+            font-weight: 600;
+            color: #333;
+        }
 
-    .service-name {
-      font-weight: 600;
-      color: var(--text-primary);
-      font-size: 0.95rem;
-    }
+        .revenue-item.total {
+            background: #f5f5f5;
+            padding: 8px;
+            margin-top: 8px;
+            border-radius: 4px;
+            font-weight: 700;
+        }
 
-    .service-revenue {
-      font-size: 0.85rem;
-      color: var(--text-secondary);
-    }
-  </style>
+        .revenue-item.total .revenue-label {
+            color: #0054E6;
+        }
+
+        .revenue-item.total .revenue-value {
+            color: #0054E6;
+        }
+
+        @media (max-width: 1400px) {
+            .content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+
+            header h1 {
+                font-size: 1.8em;
+            }
+        }
+
+        .disclaimer {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 0.85em;
+            margin-top: 30px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <header class="header">
-      <h1>Calcule sua oportunidade de receita</h1>
-      <p class="subtitle">Descubra quanto sua empresa pode ganhar com Banking as a Service</p>
-    </header>
+    <div class="container">
+        <header>
+            <h1>Calculadora de Receita Azify</h1>
+            <p>Descubra quanto sua empresa pode ganhar com Banking as a Service</p>
 
-    <main class="calculator-wrapper">
-      <div class="calculator-inputs">
-        <h2>Qual é o seu potencial?</h2>
-        
-        <div class="input-group">
-          <label>
-            <span class="label-text">Número de Usuários</span>
-            <span class="label-hint">Base para contas de pagamento</span>
-          </label>
-          <input type="range" id="users" min="10" max="5000" value="500" step="10" class="slider" />
-          <div class="slider-labels">
-            <span>10</span>
-            <span id="users-value" class="value-display">500</span>
-            <span>5.000</span>
-          </div>
-        </div>
+        </header>
 
-        <div class="input-group">
-          <label>
-            <span class="label-text">TPV Médio Mensal por Usuário (R$)</span>
-            <span class="label-hint">Volume transacionado em serviços financeiros</span>
-          </label>
-          <input type="range" id="tpv" min="500" max="10000" value="2500" step="100" class="slider" />
-          <div class="slider-labels">
-            <span>R$ 500</span>
-            <span id="tpv-value" class="value-display">R$ 2.500</span>
-            <span>R$ 10.000</span>
-          </div>
-        </div>
+        <div class="content">
+            <!-- COLUNA 1: INPUTS -->
+            <div class="card">
+                <h2>📊 Parâmetros</h2>
 
-        <div class="input-group">
-          <label>
-            <span class="label-text">Taxa de Ativação (%)</span>
-            <span class="label-hint">Percentual de usuários que usarão serviços financeiros</span>
-          </label>
-          <input type="range" id="adoption" min="10" max="100" value="60" step="5" class="slider" />
-          <div class="slider-labels">
-            <span>10%</span>
-            <span id="adoption-value" class="value-display">60%</span>
-            <span>100%</span>
-          </div>
-        </div>
+                <div class="input-group">
+                    <label for="users">Número de Usuários</label>
+                    <input type="range" id="users" min="10" max="5000" value="500" step="10">
+                    <div class="input-value">
+                        <span>10</span>
+                        <span class="value-display" id="usersValue">500</span>
+                        <span>5.000</span>
+                    </div>
+                </div>
 
-        <div class="input-group">
-          <label>
-            <span class="label-text">Margem de Adquirência (%)</span>
-            <span class="label-hint">Percentual do TPV retido como receita</span>
-          </label>
-          <input type="range" id="acquiringMargin" min="0.5" max="3" value="1.5" step="0.1" class="slider" />
-          <div class="slider-labels">
-            <span>0,5%</span>
-            <span id="acquiringMargin-value" class="value-display">1,5%</span>
-            <span>3%</span>
-          </div>
-        </div>
+                <div class="input-group">
+                    <label for="tpv">TPV Médio Mensal (R$)</label>
+                    <input type="range" id="tpv" min="500" max="10000" value="2500" step="100">
+                    <div class="input-value">
+                        <span>R$ 500</span>
+                        <span class="value-display" id="tpvValue">R$ 2.500</span>
+                        <span>R$ 10.000</span>
+                    </div>
+                </div>
 
-        <div class="input-group">
-          <label>
-            <span class="label-text">Serviços Adicionais</span>
-            <span class="label-hint">Selecione os serviços oferecidos</span>
-          </label>
-          <div class="services-checkboxes">
-            <div class="service-item">
-              <input type="checkbox" id="service-credit" class="service-checkbox" checked />
-              <label for="service-credit">
-                <span class="service-name">Crédito</span>
-                <span class="service-revenue">Receita: R$ 150/usuário/mês</span>
-              </label>
+                <div class="input-group">
+                    <label for="activation">Taxa de Ativação (%)</label>
+                    <input type="range" id="activation" min="10" max="100" value="60" step="5">
+                    <div class="input-value">
+                        <span>10%</span>
+                        <span class="value-display" id="activationValue">60%</span>
+                        <span>100%</span>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="period">Período de Projeção (meses)</label>
+                    <input type="range" id="period" min="3" max="60" value="12" step="1">
+                    <div class="input-value">
+                        <span>3</span>
+                        <span class="value-display" id="periodValue">12</span>
+                        <span>60</span>
+                    </div>
+                </div>
+
+                <div class="services-group">
+                    <label>Serviços Adicionais</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="service-credit" checked>
+                            <span class="checkbox-label">Crédito</span>
+                            <span class="checkbox-value">10% penetração</span>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="service-insurance" checked>
+                            <span class="checkbox-label">Seguro</span>
+                            <span class="checkbox-value">8% penetração</span>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="service-consortium">
+                            <span class="checkbox-label">Consórcio</span>
+                            <span class="checkbox-value">5% penetração</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="service-item">
-              <input type="checkbox" id="service-insurance" class="service-checkbox" checked />
-              <label for="service-insurance">
-                <span class="service-name">Seguro</span>
-                <span class="service-revenue">Receita: R$ 80/usuário/mês</span>
-              </label>
+
+            <!-- COLUNA 2: RESULTADOS PRINCIPAIS -->
+            <div class="card">
+                <h2>💰 Receita Estimada</h2>
+
+                <div class="results-section">
+                    <div class="result-item">
+                        <div class="result-label">Receita Anual</div>
+                        <div class="result-value" id="annualRevenue">R$ 0,00</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Receita Mensal</div>
+                        <div class="result-value" id="monthlyRevenue">R$ 0,00</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Usuários Ativos</div>
+                        <div class="result-value" id="activeUsers">0</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">TPV Anual</div>
+                        <div class="result-value" id="annualTPV">R$ 0,00</div>
+                    </div>
+                </div>
+
+                <div class="revenue-breakdown">
+                    <h3>Composição de Receita (Mensal)</h3>
+                    <div class="revenue-item">
+                        <span class="revenue-label">Adquirência (1,5% TPV)</span>
+                        <span class="revenue-value" id="revenueAcquiring">R$ 0,00</span>
+                    </div>
+                    <div class="revenue-item">
+                        <span class="revenue-label">Floating (2,5% a.a.)</span>
+                        <span class="revenue-value" id="revenueFloating">R$ 0,00</span>
+                    </div>
+                    <div class="revenue-item">
+                        <span class="revenue-label">Interchange (0,5% cartão)</span>
+                        <span class="revenue-value" id="revenueInterchange">R$ 0,00</span>
+                    </div>
+                    <div class="revenue-item">
+                        <span class="revenue-label">Crédito (4% a.a.)</span>
+                        <span class="revenue-value" id="revenueCredit">R$ 0,00</span>
+                    </div>
+                    <div class="revenue-item">
+                        <span class="revenue-label">Seguro (12% comissão)</span>
+                        <span class="revenue-value" id="revenueInsurance">R$ 0,00</span>
+                    </div>
+                    <div class="revenue-item">
+                        <span class="revenue-label">Consórcio (1% admin)</span>
+                        <span class="revenue-value" id="revenueConsortium">R$ 0,00</span>
+                    </div>
+                    <div class="revenue-item">
+                        <span class="revenue-label">Custos Operacionais</span>
+                        <span class="revenue-value" id="operationalCosts">R$ 0,00</span>
+                    </div>
+                    <div class="revenue-item total">
+                        <span class="revenue-label">Receita Líquida</span>
+                        <span class="revenue-value" id="netRevenue">R$ 0,00</span>
+                    </div>
+                </div>
+
+                <div class="insights">
+                    <h3>📈 Oportunidades Identificadas</h3>
+                    <ul id="insightsList">
+                        <li>Carregando insights...</li>
+                    </ul>
+                </div>
             </div>
-            <div class="service-item">
-              <input type="checkbox" id="service-consortium" class="service-checkbox" />
-              <label for="service-consortium">
-                <span class="service-name">Consórcio</span>
-                <span class="service-revenue">Receita: R$ 120/usuário/mês</span>
-              </label>
+
+            <!-- COLUNA 3: GRÁFICO E ANÁLISE -->
+            <div class="card">
+                <h2>📊 Projeção de Receita</h2>
+                <div class="chart-container">
+                    <canvas id="revenueChart"></canvas>
+                </div>
+
+                <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; margin-top: 20px;">
+                    <h3 style="color: #0066ff; font-size: 1em; margin-bottom: 10px;">Modelo Conservador</h3>
+                    <p style="font-size: 0.9em; color: #666; line-height: 1.6;">
+                        Este modelo utiliza premissas realistas baseadas em dados de mercado:
+                    </p>
+                    <ul style="font-size: 0.85em; color: #666; margin-top: 10px; margin-left: 20px; line-height: 1.8;">
+                        <li><strong>Adquirência:</strong> 1,5% do TPV (conservador)</li>
+                        <li><strong>Floating:</strong> 2,5% a.a. sobre saldo médio</li>
+                        <li><strong>Crédito:</strong> 4% a.a. após provisão</li>
+                        <li><strong>Seguro:</strong> 12% de comissão</li>
+                        <li><strong>Consórcio:</strong> 1% de taxa admin</li>
+                        <li><strong>Interchange:</strong> 0,5% em transações com cartão</li>
+                    </ul>
+                </div>
             </div>
-          </div>
         </div>
 
-        <div class="input-group">
-          <label>
-            <span class="label-text">Período de Projeção (meses)</span>
-            <span class="label-hint">Horizonte de análise</span>
-          </label>
-          <input type="range" id="months" min="3" max="60" value="12" step="3" class="slider" />
-          <div class="slider-labels">
-            <span>3</span>
-            <span id="months-value" class="value-display">12</span>
-            <span>60</span>
-          </div>
+        <div class="disclaimer">
+            ℹ️ Esta calculadora é para fins informativos e educacionais. Os valores são estimativas baseadas em premissas de mercado. Resultados reais podem variar conforme a implementação, mix de produtos e comportamento dos clientes.
         </div>
-      </div>
+    </div>
 
-      <div class="calculator-results">
-        <div class="result-card main-result">
-          <div class="result-label">Receita Anual Estimada</div>
-          <div class="result-value" id="annual-revenue">R$ 0,00</div>
-          <div class="result-context" id="revenue-context">Baseado em seus parâmetros</div>
-        </div>
+    <script>
+        const usersInput = document.getElementById('users');
+        const tpvInput = document.getElementById('tpv');
+        const activationInput = document.getElementById('activation');
+        const periodInput = document.getElementById('period');
 
-        <div class="result-card">
-          <div class="result-label">Receita no Período</div>
-          <div class="result-value" id="period-revenue">R$ 0,00</div>
-          <div class="result-context">Período: <span id="period-months">12</span> meses</div>
-        </div>
+        const usersValue = document.getElementById('usersValue');
+        const tpvValue = document.getElementById('tpvValue');
+        const activationValue = document.getElementById('activationValue');
+        const periodValue = document.getElementById('periodValue');
 
-        <div class="result-card">
-          <div class="result-label">Usuários Ativos</div>
-          <div class="result-value" id="active-users">0</div>
-          <div class="result-context">Com serviços ativados</div>
-        </div>
+        let chart = null;
 
-        <div class="result-card">
-          <div class="result-label">Volume Transacionado (Anual)</div>
-          <div class="result-value" id="annual-tpv">R$ 0,00</div>
-          <div class="result-context">TPV processado</div>
-        </div>
-      </div>
-
-      <div class="calculator-results-right">
-        <div class="chart-container">
-          <h3>Projeção de Receita Mensal</h3>
-          <canvas id="revenue-chart"></canvas>
-        </div>
-
-        <div class="insights">
-          <h3>Oportunidades Identificadas</h3>
-          <ul id="insights-list">
-            <li>Sua rede tem potencial para gerar receita significativa com Banking as a Service</li>
-          </ul>
-        </div>
-      </div>
-    </main>
-
-    <footer class="footer">
-      <p>Esta calculadora é indicativa e informacional. Para uma análise detalhada, entre em contato com nosso time.</p>
-    </footer>
-  </div>
-
-  <script>
-    const CONFIG = {
-      creditMonthlyRevenue: 150,
-      insuranceMonthlyRevenue: 80,
-      consortiumMonthlyRevenue: 120,
-      accountActivationCost: 0.9,
-      pixCost: 0.2,
-      boletoLiquidationCost: 1.4,
-      floatingPercentage: 0.7,
-      irpjRate: 0.225,
-      cdiRate: 0.15,
-    };
-
-    const elements = {
-      users: document.getElementById('users'),
-      usersValue: document.getElementById('users-value'),
-      tpv: document.getElementById('tpv'),
-      tpvValue: document.getElementById('tpv-value'),
-      adoption: document.getElementById('adoption'),
-      adoptionValue: document.getElementById('adoption-value'),
-      acquiringMargin: document.getElementById('acquiringMargin'),
-      acquiringMarginValue: document.getElementById('acquiringMargin-value'),
-      months: document.getElementById('months'),
-      monthsValue: document.getElementById('months-value'),
-      serviceCredit: document.getElementById('service-credit'),
-      serviceInsurance: document.getElementById('service-insurance'),
-      serviceConsortium: document.getElementById('service-consortium'),
-      annualRevenue: document.getElementById('annual-revenue'),
-      periodRevenue: document.getElementById('period-revenue'),
-      activeUsers: document.getElementById('active-users'),
-      annualTpv: document.getElementById('annual-tpv'),
-      periodMonths: document.getElementById('period-months'),
-      revenueContext: document.getElementById('revenue-context'),
-      insightsList: document.getElementById('insights-list'),
-    };
-
-    let chart = null;
-
-    const formatCurrency = (value) => {
-      return new Intl.NumberFormat('pt-BR', {
-        style: 'currency',
-        currency: 'BRL',
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      }).format(value);
-    };
-
-    const formatNumber = (value) => {
-      return new Intl.NumberFormat('pt-BR', {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-      }).format(Math.round(value));
-    };
-
-    function getSelectedServices() {
-      const services = {
-        credit: elements.serviceCredit.checked,
-        insurance: elements.serviceInsurance.checked,
-        consortium: elements.serviceConsortium.checked,
-      };
-      
-      const totalMonthlyRevenuePerUser = 
-        (services.credit ? CONFIG.creditMonthlyRevenue : 0) +
-        (services.insurance ? CONFIG.insuranceMonthlyRevenue : 0) +
-        (services.consortium ? CONFIG.consortiumMonthlyRevenue : 0);
-      
-      return { services, totalMonthlyRevenuePerUser };
-    }
-
-    function updateSliderValues() {
-      elements.usersValue.textContent = formatNumber(elements.users.value);
-      elements.tpvValue.textContent = formatCurrency(elements.tpv.value);
-      elements.adoptionValue.textContent = elements.adoption.value + '%';
-      elements.acquiringMarginValue.textContent = elements.acquiringMargin.value.replace('.', ',') + '%';
-      elements.monthsValue.textContent = elements.months.value;
-      elements.periodMonths.textContent = elements.months.value;
-    }
-
-    function calculateMonthlyRevenue(users, tpv, adoption, acquiringMarginPercent, servicesData, monthIndex) {
-      const activeUsers = Math.floor(users * (adoption / 100));
-      const growthFactor = Math.min(1, (monthIndex + 1) / 12);
-      const adjustedUsers = Math.floor(activeUsers * growthFactor);
-      const monthlyTpv = adjustedUsers * tpv;
-      const acquiringRevenue = monthlyTpv * (acquiringMarginPercent / 100);
-      const servicesRevenue = adjustedUsers * servicesData.totalMonthlyRevenuePerUser;
-      const floatingBalance = monthlyTpv * 0.3;
-      const floatingRevenue = floatingBalance * (CONFIG.cdiRate / 12) * CONFIG.floatingPercentage * (1 - CONFIG.irpjRate);
-      const accountCosts = adjustedUsers * CONFIG.accountActivationCost;
-      const pixTransactions = adjustedUsers * 3;
-      const boletoTransactions = adjustedUsers * 1;
-      const pixCosts = pixTransactions * CONFIG.pixCost;
-      const boletoCosts = boletoTransactions * CONFIG.boletoLiquidationCost;
-      const totalCosts = accountCosts + pixCosts + boletoCosts;
-      const monthlyRevenue = acquiringRevenue + servicesRevenue + floatingRevenue - totalCosts;
-
-      return {
-        revenue: Math.max(0, monthlyRevenue),
-        tpv: monthlyTpv,
-        users: adjustedUsers,
-        acquiringRevenue,
-        servicesRevenue,
-        floatingRevenue,
-        costs: totalCosts,
-      };
-    }
-
-    function calculateTotalRevenue() {
-      const users = parseInt(elements.users.value);
-      const tpv = parseFloat(elements.tpv.value);
-      const adoption = parseInt(elements.adoption.value);
-      const acquiringMarginPercent = parseFloat(elements.acquiringMargin.value);
-      const months = parseInt(elements.months.value);
-      const servicesData = getSelectedServices();
-      
-      let totalRevenue = 0;
-      let totalTpv = 0;
-      let maxUsers = 0;
-      const monthlyData = [];
-      
-      for (let i = 0; i < months; i++) {
-        const monthData = calculateMonthlyRevenue(users, tpv, adoption, acquiringMarginPercent, servicesData, i);
-        totalRevenue += monthData.revenue;
-        totalTpv += monthData.tpv;
-        maxUsers = Math.max(maxUsers, monthData.users);
-        monthlyData.push(monthData);
-      }
-      
-      const annualRevenue = (totalRevenue / months) * 12;
-      
-      return {
-        totalRevenue,
-        annualRevenue,
-        totalTpv,
-        maxUsers,
-        monthlyData,
-        servicesData,
-      };
-    }
-
-    function generateInsights(data) {
-      const insights = [];
-      const { annualRevenue, maxUsers, monthlyData, servicesData } = data;
-      
-      if (annualRevenue > 100000) {
-        insights.push(`Seu varejista tem potencial para gerar mais de R$ ${formatCurrency(annualRevenue)} em receita anualizada.`);
-      } else if (annualRevenue > 50000) {
-        insights.push(`Potencial estimado de R$ ${formatCurrency(annualRevenue)} em receita anualizada.`);
-      } else {
-        insights.push(`Oportunidade inicial com potencial de crescimento para R$ ${formatCurrency(annualRevenue)} anualizados.`);
-      }
-      
-      if (monthlyData.length > 1) {
-        const firstMonth = monthlyData[0].revenue;
-        const lastMonth = monthlyData[monthlyData.length - 1].revenue;
-        if (firstMonth > 0) {
-          const growth = ((lastMonth - firstMonth) / firstMonth) * 100;
-          if (growth > 50) {
-            insights.push(`Crescimento projetado de ${formatNumber(growth)}% durante o período de análise.`);
-          }
+        function formatCurrency(value) {
+            return new Intl.NumberFormat('pt-BR', {
+                style: 'currency',
+                currency: 'BRL',
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }).format(value);
         }
-      }
-      
-      if (maxUsers > 0) {
-        insights.push(`Base de ${formatNumber(maxUsers)} usuários ativos com serviços financeiros.`);
-      }
-      
-      if (data.totalTpv > 0) {
-        const monthlyAvgTpv = data.totalTpv / monthlyData.length;
-        const annualTpv = monthlyAvgTpv * 12;
-        insights.push(`Volume transacionado estimado em R$ ${formatCurrency(annualTpv)} anualizados.`);
-      }
-      
-      const servicesCount = Object.values(servicesData.services).filter(Boolean).length;
-      if (servicesCount > 0) {
-        const serviceNames = [];
-        if (servicesData.services.credit) serviceNames.push('Crédito');
-        if (servicesData.services.insurance) serviceNames.push('Seguro');
-        if (servicesData.services.consortium) serviceNames.push('Consórcio');
-        insights.push(`Receita diversificada com ${serviceNames.join(', ')}.`);
-      }
-      
-      insights.push(`Comece pelos usuários antes dos clientes. Construa produtos simples de alto uso.`);
-      
-      return insights;
-    }
 
-    function updateChart(monthlyData) {
-      const ctx = document.getElementById('revenue-chart').getContext('2d');
-      
-      const labels = monthlyData.map((_, i) => `Mês ${i + 1}`);
-      const revenueData = monthlyData.map(d => d.revenue);
-      const cumulativeRevenue = [];
-      let cumulative = 0;
-      revenueData.forEach(r => {
-        cumulative += r;
-        cumulativeRevenue.push(cumulative);
-      });
-      
-      if (chart) {
-        chart.destroy();
-      }
-      
-      chart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels,
-          datasets: [
-            {
-              label: 'Receita Mensal',
-              data: revenueData,
-              borderColor: '#0066ff',
-              backgroundColor: 'rgba(0, 102, 255, 0.1)',
-              borderWidth: 2,
-              fill: true,
-              tension: 0.4,
-              pointRadius: 4,
-              pointBackgroundColor: '#0066ff',
-              pointBorderColor: '#fff',
-              pointBorderWidth: 2,
-              yAxisID: 'y',
-            },
-            {
-              label: 'Receita Acumulada',
-              data: cumulativeRevenue,
-              borderColor: '#00d4aa',
-              backgroundColor: 'transparent',
-              borderWidth: 2,
-              fill: false,
-              tension: 0.4,
-              pointRadius: 3,
-              pointBackgroundColor: '#00d4aa',
-              yAxisID: 'y1',
-            },
-          ],
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: true,
-          interaction: {
-            mode: 'index',
-            intersect: false,
-          },
-          plugins: {
-            legend: {
-              display: true,
-              position: 'top',
-              labels: {
-                usePointStyle: true,
-                padding: 15,
-                font: {
-                  size: 12,
-                  weight: '600',
-                },
-              },
-            },
-            tooltip: {
-              backgroundColor: 'rgba(0, 0, 0, 0.8)',
-              padding: 12,
-              titleFont: {
-                size: 12,
-                weight: 'bold',
-              },
-              bodyFont: {
-                size: 11,
-              },
-              callbacks: {
-                label: function(context) {
-                  let label = context.dataset.label || '';
-                  if (label) {
-                    label += ': ';
-                  }
-                  label += formatCurrency(context.parsed.y);
-                  return label;
-                },
-              },
-            },
-          },
-          scales: {
-            y: {
-              type: 'linear',
-              display: true,
-              position: 'left',
-              title: {
-                display: true,
-                text: 'Receita Mensal (R$)',
-                font: {
-                  size: 11,
-                  weight: 'bold',
-                },
-              },
-              ticks: {
-                callback: function(value) {
-                  return 'R$ ' + (value / 1000).toFixed(0) + 'k';
-                },
-              },
-            },
-            y1: {
-              type: 'linear',
-              display: true,
-              position: 'right',
-              title: {
-                display: true,
-                text: 'Receita Acumulada (R$)',
-                font: {
-                  size: 11,
-                  weight: 'bold',
-                },
-              },
-              grid: {
-                drawOnChartArea: false,
-              },
-              ticks: {
-                callback: function(value) {
-                  return 'R$ ' + (value / 1000).toFixed(0) + 'k';
-                },
-              },
-            },
-          },
-        },
-      });
-    }
+        function formatNumber(value) {
+            return new Intl.NumberFormat('pt-BR', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(value);
+        }
 
-    function updateResults() {
-      updateSliderValues();
-      
-      const data = calculateTotalRevenue();
-      
-      elements.annualRevenue.textContent = formatCurrency(data.annualRevenue);
-      elements.periodRevenue.textContent = formatCurrency(data.totalRevenue);
-      elements.activeUsers.textContent = formatNumber(data.maxUsers);
-      elements.annualTpv.textContent = formatCurrency((data.totalTpv / parseInt(elements.months.value)) * 12);
-      
-      const avgMonthlyRevenue = data.totalRevenue / parseInt(elements.months.value);
-      elements.revenueContext.textContent = `Média mensal: ${formatCurrency(avgMonthlyRevenue)}`;
-      
-      const insights = generateInsights(data);
-      elements.insightsList.innerHTML = insights
-        .map(insight => `<li>${insight}</li>`)
-        .join('');
-      
-      updateChart(data.monthlyData);
-    }
+        function calculateRevenue() {
+            const users = parseInt(usersInput.value);
+            const tpv = parseFloat(tpvInput.value);
+            const activation = parseFloat(activationInput.value) / 100;
+            const period = parseInt(periodInput.value);
 
-    elements.users.addEventListener('input', updateResults);
-    elements.tpv.addEventListener('input', updateResults);
-    elements.adoption.addEventListener('input', updateResults);
-    elements.acquiringMargin.addEventListener('input', updateResults);
-    elements.months.addEventListener('input', updateResults);
-    elements.serviceCredit.addEventListener('change', updateResults);
-    elements.serviceInsurance.addEventListener('change', updateResults);
-    elements.serviceConsortium.addEventListener('change', updateResults);
+            const activeUsers = Math.round(users * activation);
 
-    document.addEventListener('DOMContentLoaded', () => {
-      updateResults();
-    });
-  </script>
+            // Receitas
+            const revenueAcquiring = (activeUsers * tpv * 0.015); // 1,5% do TPV
+            const averageBalance = (activeUsers * tpv * 0.15); // 15% do TPV
+            const revenueFloating = (averageBalance * 0.025 / 12); // 2,5% a.a.
+            const revenueInterchange = (activeUsers * tpv * 0.30 * 0.005); // 0,5% de 30% com cartão
+
+            // Serviços adicionais
+            let revenueCredit = 0;
+            let revenueInsurance = 0;
+            let revenueConsortium = 0;
+
+            if (document.getElementById('service-credit').checked) {
+                const creditClients = Math.round(activeUsers * 0.10);
+                const creditTicket = 3000;
+                revenueCredit = (creditClients * creditTicket * 0.04 / 12); // 4% a.a.
+            }
+
+            if (document.getElementById('service-insurance').checked) {
+                const insuranceClients = Math.round(activeUsers * 0.08);
+                const insurancePremium = 50;
+                revenueInsurance = (insuranceClients * insurancePremium * 0.12); // 12% comissão
+            }
+
+            if (document.getElementById('service-consortium').checked) {
+                const consortiumClients = Math.round(activeUsers * 0.05);
+                const consortiumTicket = 25000;
+                revenueConsortium = (consortiumClients * consortiumTicket * 0.01); // 1% admin
+            }
+
+            // Custos operacionais
+            const costAccounts = activeUsers * 2.50;
+            const costTransactions = (activeUsers * tpv * 0.001); // 0,1% do TPV
+            const costCards = (activeUsers * 0.30 * 5); // R$ 5 por cliente com cartão
+            const costDefaultProvision = revenueCredit * 0.015; // 1,5% da receita de crédito
+
+            const totalCosts = costAccounts + costTransactions + costCards + costDefaultProvision;
+
+            // Receita total
+            const monthlyRevenueBruto = revenueAcquiring + revenueFloating + revenueInterchange + revenueCredit + revenueInsurance + revenueConsortium;
+            const monthlyRevenueNet = monthlyRevenueBruto - totalCosts;
+            const annualRevenue = monthlyRevenueNet * 12;
+            const annualTPV = activeUsers * tpv * 12;
+
+            // Atualizar display
+            usersValue.textContent = formatNumber(users);
+            tpvValue.textContent = formatCurrency(tpv);
+            activationValue.textContent = (activation * 100).toFixed(0) + '%';
+            periodValue.textContent = period;
+
+            document.getElementById('annualRevenue').textContent = formatCurrency(annualRevenue);
+            document.getElementById('monthlyRevenue').textContent = formatCurrency(monthlyRevenueNet);
+            document.getElementById('activeUsers').textContent = formatNumber(activeUsers);
+            document.getElementById('annualTPV').textContent = formatCurrency(annualTPV);
+
+            document.getElementById('revenueAcquiring').textContent = formatCurrency(revenueAcquiring);
+            document.getElementById('revenueFloating').textContent = formatCurrency(revenueFloating);
+            document.getElementById('revenueInterchange').textContent = formatCurrency(revenueInterchange);
+            document.getElementById('revenueCredit').textContent = formatCurrency(revenueCredit);
+            document.getElementById('revenueInsurance').textContent = formatCurrency(revenueInsurance);
+            document.getElementById('revenueConsortium').textContent = formatCurrency(revenueConsortium);
+            document.getElementById('operationalCosts').textContent = '-' + formatCurrency(totalCosts);
+            document.getElementById('netRevenue').textContent = formatCurrency(monthlyRevenueNet);
+
+            // Gráfico
+            updateChart(period, monthlyRevenueNet, activeUsers, tpv);
+
+            // Insights
+            updateInsights(activeUsers, annualRevenue, monthlyRevenueNet, revenueAcquiring, monthlyRevenueBruto);
+        }
+
+        function updateChart(months, monthlyRevenue, activeUsers, tpv) {
+            const labels = [];
+            const revenueData = [];
+            const cumulativeData = [];
+            let cumulative = 0;
+
+            for (let i = 1; i <= months; i++) {
+                labels.push(`Mês ${i}`);
+                revenueData.push(monthlyRevenue);
+                cumulative += monthlyRevenue;
+                cumulativeData.push(cumulative);
+            }
+
+            const ctx = document.getElementById('revenueChart').getContext('2d');
+
+            if (chart) {
+                chart.destroy();
+            }
+
+            chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Receita Mensal',
+                            data: revenueData,
+                            borderColor: '#0066ff',
+                            backgroundColor: 'rgba(0, 102, 255, 0.1)',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.4,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: 'Receita Acumulada',
+                            data: cumulativeData,
+                            borderColor: '#00d4aa',
+                            backgroundColor: 'transparent',
+                            borderWidth: 2,
+                            borderDash: [5, 5],
+                            yAxisID: 'y1'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            title: {
+                                display: true,
+                                text: 'Receita Mensal (R$)'
+                            }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            title: {
+                                display: true,
+                                text: 'Receita Acumulada (R$)'
+                            },
+                            grid: {
+                                drawOnChartArea: false
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateInsights(activeUsers, annualRevenue, monthlyRevenue, revenueAcquiring, totalRevenue) {
+            const insights = [];
+
+            if (monthlyRevenue > 0) {
+                insights.push(`Receita mensal líquida de ${formatCurrency(monthlyRevenue)} com ${formatNumber(activeUsers)} usuários ativos.`);
+            }
+
+            const acquisitionPercentage = (revenueAcquiring / totalRevenue * 100).toFixed(0);
+            insights.push(`Adquirência representa ${acquisitionPercentage}% da receita bruta (modelo mais previsível).`);
+
+            if (document.getElementById('service-credit').checked) {
+                insights.push(`Crédito ativado: penetração conservadora de 10% com margem de 4% a.a.`);
+            }
+
+            if (document.getElementById('service-insurance').checked) {
+                insights.push(`Seguro ativado: comissão de 12% sobre prêmios de R$ 50/mês.`);
+            }
+
+            if (document.getElementById('service-consortium').checked) {
+                insights.push(`Consórcio ativado: taxa de administração de 1% a.m. com penetração de 5%.`);
+            }
+
+            insights.push(`Comece pelos usuários ativos antes de expandir para novos produtos.`);
+            insights.push(`Modelo conservador: premissas realistas baseadas em dados de mercado.`);
+
+            const insightsList = document.getElementById('insightsList');
+            insightsList.innerHTML = insights.map(insight => `<li>${insight}</li>`).join('');
+        }
+
+        // Event listeners
+        usersInput.addEventListener('input', calculateRevenue);
+        tpvInput.addEventListener('input', calculateRevenue);
+        activationInput.addEventListener('input', calculateRevenue);
+        periodInput.addEventListener('input', calculateRevenue);
+        document.getElementById('service-credit').addEventListener('change', calculateRevenue);
+        document.getElementById('service-insurance').addEventListener('change', calculateRevenue);
+        document.getElementById('service-consortium').addEventListener('change', calculateRevenue);
+
+        // Calcular inicial
+        calculateRevenue();
+    </script>
 </body>
 </html>
