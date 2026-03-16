@@ -14,7 +14,7 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-            background: linear-gradient(135deg, #0054E6 0%, #00d4aa 100%);
+            background: #f5f5f5;
             min-height: 100vh;
             padding: 40px 20px;
         }
@@ -26,29 +26,29 @@
 
         header {
             text-align: center;
-            color: white;
             margin-bottom: 40px;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .logo {
+            max-width: 150px;
+            height: auto;
+            margin-bottom: 20px;
         }
 
         header h1 {
             font-size: 2.5em;
             margin-bottom: 10px;
             font-weight: 700;
+            color: #1a1a1a;
         }
 
         header p {
             font-size: 1.1em;
-            opacity: 0.95;
-        }
-
-        .badge {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.9em;
-            margin-top: 10px;
+            color: #666;
         }
 
         .content {
@@ -62,7 +62,7 @@
             background: white;
             border-radius: 12px;
             padding: 30px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         }
 
         .card h2 {
@@ -102,7 +102,7 @@
             border-radius: 50%;
             background: #0054E6;
             cursor: pointer;
-            box-shadow: 0 2px 8px rgba(0, 102, 255, 0.3);
+            box-shadow: 0 2px 8px rgba(0, 84, 230, 0.3);
         }
 
         .input-group input[type="range"]::-moz-range-thumb {
@@ -112,7 +112,7 @@
             background: #0054E6;
             cursor: pointer;
             border: none;
-            box-shadow: 0 2px 8px rgba(0, 102, 255, 0.3);
+            box-shadow: 0 2px 8px rgba(0, 84, 230, 0.3);
         }
 
         .input-value {
@@ -298,6 +298,57 @@
             color: #0054E6;
         }
 
+        .disclaimer {
+            background: white;
+            color: #333;
+            padding: 25px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            margin-top: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            line-height: 1.6;
+        }
+
+        .disclaimer h4 {
+            color: #0054E6;
+            margin-bottom: 12px;
+            font-size: 0.95em;
+        }
+
+        .disclaimer p {
+            margin-bottom: 10px;
+            color: #666;
+        }
+
+        .disclaimer ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 12px;
+        }
+
+        .disclaimer li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+            color: #666;
+        }
+
+        .disclaimer li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #0054E6;
+        }
+
+        .disclaimer a {
+            color: #0054E6;
+            text-decoration: none;
+        }
+
+        .disclaimer a:hover {
+            text-decoration: underline;
+        }
+
         @media (max-width: 1400px) {
             .content {
                 grid-template-columns: 1fr 1fr;
@@ -313,30 +364,20 @@
                 font-size: 1.8em;
             }
         }
-
-        .disclaimer {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            padding: 15px;
-            border-radius: 8px;
-            font-size: 0.85em;
-            margin-top: 30px;
-            text-align: center;
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
+            <img src="logo-azify.webp" alt="Azify" class="logo">
             <h1>Calculadora de Receita Azify</h1>
             <p>Descubra quanto sua empresa pode ganhar com Banking as a Service</p>
-
         </header>
 
         <div class="content">
             <!-- COLUNA 1: INPUTS -->
             <div class="card">
-                <h2>📊 Parâmetros</h2>
+                <h2>Parâmetros</h2>
 
                 <div class="input-group">
                     <label for="users">Número de Usuários</label>
@@ -383,43 +424,43 @@
                     <div class="checkbox-group">
                         <div class="checkbox-item">
                             <input type="checkbox" id="service-credit" checked>
-                            <span class="checkbox-label">Crédito</span>
+                            <label for="service-credit" class="checkbox-label">Crédito</label>
                             <span class="checkbox-value">10% penetração</span>
                         </div>
                         <div class="checkbox-item">
                             <input type="checkbox" id="service-insurance" checked>
-                            <span class="checkbox-label">Seguro</span>
+                            <label for="service-insurance" class="checkbox-label">Seguro</label>
                             <span class="checkbox-value">8% penetração</span>
                         </div>
                         <div class="checkbox-item">
                             <input type="checkbox" id="service-consortium">
-                            <span class="checkbox-label">Consórcio</span>
+                            <label for="service-consortium" class="checkbox-label">Consórcio</label>
                             <span class="checkbox-value">5% penetração</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- COLUNA 2: RESULTADOS PRINCIPAIS -->
+            <!-- COLUNA 2: RESULTADOS -->
             <div class="card">
-                <h2>💰 Receita Estimada</h2>
+                <h2>Receita Estimada</h2>
 
                 <div class="results-section">
                     <div class="result-item">
                         <div class="result-label">Receita Anual</div>
-                        <div class="result-value" id="annualRevenue">R$ 0,00</div>
+                        <div class="result-value" id="annualRevenue">R$ 133.186,50</div>
                     </div>
                     <div class="result-item">
                         <div class="result-label">Receita Mensal</div>
-                        <div class="result-value" id="monthlyRevenue">R$ 0,00</div>
+                        <div class="result-value" id="monthlyRevenue">R$ 11.098,88</div>
                     </div>
                     <div class="result-item">
                         <div class="result-label">Usuários Ativos</div>
-                        <div class="result-value" id="activeUsers">0</div>
+                        <div class="result-value" id="activeUsers">300</div>
                     </div>
                     <div class="result-item">
                         <div class="result-label">TPV Anual</div>
-                        <div class="result-value" id="annualTPV">R$ 0,00</div>
+                        <div class="result-value" id="annualTPV">R$ 9.000.000,00</div>
                     </div>
                 </div>
 
@@ -427,202 +468,178 @@
                     <h3>Composição de Receita (Mensal)</h3>
                     <div class="revenue-item">
                         <span class="revenue-label">Adquirência (1,5% TPV)</span>
-                        <span class="revenue-value" id="revenueAcquiring">R$ 0,00</span>
+                        <span class="revenue-value" id="acqRevenue">R$ 11.250,00</span>
                     </div>
                     <div class="revenue-item">
                         <span class="revenue-label">Floating (2,5% a.a.)</span>
-                        <span class="revenue-value" id="revenueFloating">R$ 0,00</span>
+                        <span class="revenue-value" id="floatingRevenue">R$ 234,38</span>
                     </div>
                     <div class="revenue-item">
                         <span class="revenue-label">Interchange (0,5% cartão)</span>
-                        <span class="revenue-value" id="revenueInterchange">R$ 0,00</span>
+                        <span class="revenue-value" id="interchangeRevenue">R$ 1.125,00</span>
                     </div>
                     <div class="revenue-item">
                         <span class="revenue-label">Crédito (4% a.a.)</span>
-                        <span class="revenue-value" id="revenueCredit">R$ 0,00</span>
+                        <span class="revenue-value" id="creditRevenue">R$ 300,00</span>
                     </div>
                     <div class="revenue-item">
                         <span class="revenue-label">Seguro (12% comissão)</span>
-                        <span class="revenue-value" id="revenueInsurance">R$ 0,00</span>
+                        <span class="revenue-value" id="insuranceRevenue">R$ 144,00</span>
                     </div>
                     <div class="revenue-item">
                         <span class="revenue-label">Consórcio (1% admin)</span>
-                        <span class="revenue-value" id="revenueConsortium">R$ 0,00</span>
+                        <span class="revenue-value" id="consortiumRevenue">R$ 0,00</span>
                     </div>
                     <div class="revenue-item">
                         <span class="revenue-label">Custos Operacionais</span>
-                        <span class="revenue-value" id="operationalCosts">R$ 0,00</span>
+                        <span class="revenue-value" id="operationalCosts">-R$ 1.954,50</span>
                     </div>
                     <div class="revenue-item total">
                         <span class="revenue-label">Receita Líquida</span>
-                        <span class="revenue-value" id="netRevenue">R$ 0,00</span>
+                        <span class="revenue-value" id="netRevenue">R$ 11.098,88</span>
                     </div>
-                </div>
-
-                <div class="insights">
-                    <h3>📈 Oportunidades Identificadas</h3>
-                    <ul id="insightsList">
-                        <li>Carregando insights...</li>
-                    </ul>
                 </div>
             </div>
 
-            <!-- COLUNA 3: GRÁFICO E ANÁLISE -->
+            <!-- COLUNA 3: GRÁFICO E INSIGHTS -->
             <div class="card">
-                <h2>📊 Projeção de Receita</h2>
                 <div class="chart-container">
                     <canvas id="revenueChart"></canvas>
                 </div>
 
-                <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; margin-top: 20px;">
-                    <h3 style="color: #0066ff; font-size: 1em; margin-bottom: 10px;">Modelo Conservador</h3>
-                    <p style="font-size: 0.9em; color: #666; line-height: 1.6;">
-                        Este modelo utiliza premissas realistas baseadas em dados de mercado:
-                    </p>
-                    <ul style="font-size: 0.85em; color: #666; margin-top: 10px; margin-left: 20px; line-height: 1.8;">
-                        <li><strong>Adquirência:</strong> 1,5% do TPV (conservador)</li>
-                        <li><strong>Floating:</strong> 2,5% a.a. sobre saldo médio</li>
-                        <li><strong>Crédito:</strong> 4% a.a. após provisão</li>
-                        <li><strong>Seguro:</strong> 12% de comissão</li>
-                        <li><strong>Consórcio:</strong> 1% de taxa admin</li>
-                        <li><strong>Interchange:</strong> 0,5% em transações com cartão</li>
+                <div class="insights">
+                    <h3>Oportunidades Identificadas</h3>
+                    <ul id="insightsList">
+                        <li>Receita mensal líquida de R$ 11.098,88 com 300 usuários ativos.</li>
+                        <li>Adquirência representa 86% da receita bruta (modelo mais previsível).</li>
+                        <li>Crédito ativado: penetração conservadora de 10% com margem de 4% a.a.</li>
+                        <li>Seguro ativado: comissão de 12% sobre prêmios de R$ 50/mês.</li>
+                        <li>Comece pelos usuários ativos antes de expandir para novos produtos.</li>
+                        <li>Modelo conservador: premissas realistas baseadas em dados de mercado.</li>
                     </ul>
                 </div>
             </div>
         </div>
 
         <div class="disclaimer">
-            ℹ️ Esta calculadora é para fins informativos e educacionais. Os valores são estimativas baseadas em premissas de mercado. Resultados reais podem variar conforme a implementação, mix de produtos e comportamento dos clientes.
+            <h4>Aviso Importante</h4>
+            <p>Estimativas baseadas em referências públicas do setor financeiro, incluindo dados do Banco Central, SUSEP, CNseg e ABAC.</p>
+            <p><strong>Fontes:</strong></p>
+            <ul>
+                <li><strong>BCB</strong> — Panorama do Sistema de Consórcios<br><a href="https://www.bcb.gov.br/content/estabilidadefinanceira/panoramaconsorcio/panorama_de_consorcios_2023.pdf" target="_blank">https://www.bcb.gov.br/content/estabilidadefinanceira/panoramaconsorcio/panorama_de_consorcios_2023.pdf</a></li>
+                <li><strong>SUSEP</strong> — Dados estatísticos do mercado de seguros<br><a href="https://www.gov.br/susep/pt-br/central-de-conteudos/dados-estatisticos" target="_blank">https://www.gov.br/susep/pt-br/central-de-conteudos/dados-estatisticos</a></li>
+                <li><strong>CNseg</strong> — Estatísticas do setor segurador<br><a href="https://estatisticas.cnseg.org.br/" target="_blank">https://estatisticas.cnseg.org.br/</a></li>
+                <li><strong>ABAC</strong> — Dados e estudos sobre o sistema de consórcios<br><a href="https://abac.org.br" target="_blank">https://abac.org.br</a></li>
+            </ul>
+            <p style="margin-top: 15px; font-size: 0.8em; color: #999;">Esta calculadora é para fins informativos e educacionais. Os valores são estimativas baseadas em premissas de mercado. Resultados reais podem variar conforme a implementação, mix de produtos e comportamento dos clientes.</p>
         </div>
     </div>
 
     <script>
-        const usersInput = document.getElementById('users');
-        const tpvInput = document.getElementById('tpv');
-        const activationInput = document.getElementById('activation');
-        const periodInput = document.getElementById('period');
-
-        const usersValue = document.getElementById('usersValue');
-        const tpvValue = document.getElementById('tpvValue');
-        const activationValue = document.getElementById('activationValue');
-        const periodValue = document.getElementById('periodValue');
-
         let chart = null;
 
-        function formatCurrency(value) {
-            return new Intl.NumberFormat('pt-BR', {
-                style: 'currency',
-                currency: 'BRL',
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            }).format(value);
-        }
+        const elements = {
+            users: document.getElementById('users'),
+            tpv: document.getElementById('tpv'),
+            activation: document.getElementById('activation'),
+            period: document.getElementById('period'),
+            serviceCredit: document.getElementById('service-credit'),
+            serviceInsurance: document.getElementById('service-insurance'),
+            serviceConsortium: document.getElementById('service-consortium'),
+            usersValue: document.getElementById('usersValue'),
+            tpvValue: document.getElementById('tpvValue'),
+            activationValue: document.getElementById('activationValue'),
+            periodValue: document.getElementById('periodValue'),
+            annualRevenue: document.getElementById('annualRevenue'),
+            monthlyRevenue: document.getElementById('monthlyRevenue'),
+            activeUsers: document.getElementById('activeUsers'),
+            annualTPV: document.getElementById('annualTPV'),
+            acqRevenue: document.getElementById('acqRevenue'),
+            floatingRevenue: document.getElementById('floatingRevenue'),
+            interchangeRevenue: document.getElementById('interchangeRevenue'),
+            creditRevenue: document.getElementById('creditRevenue'),
+            insuranceRevenue: document.getElementById('insuranceRevenue'),
+            consortiumRevenue: document.getElementById('consortiumRevenue'),
+            operationalCosts: document.getElementById('operationalCosts'),
+            netRevenue: document.getElementById('netRevenue'),
+            revenueChart: document.getElementById('revenueChart'),
+            insightsList: document.getElementById('insightsList')
+        };
 
-        function formatNumber(value) {
-            return new Intl.NumberFormat('pt-BR', {
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 0
-            }).format(value);
+        function formatCurrency(value) {
+            return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
         }
 
         function calculateRevenue() {
-            const users = parseInt(usersInput.value);
-            const tpv = parseFloat(tpvInput.value);
-            const activation = parseFloat(activationInput.value) / 100;
-            const period = parseInt(periodInput.value);
+            const users = parseInt(elements.users.value);
+            const tpv = parseInt(elements.tpv.value);
+            const activation = parseInt(elements.activation.value) / 100;
+            const period = parseInt(elements.period.value);
 
             const activeUsers = Math.round(users * activation);
+            const monthlyTPV = tpv * users;
+            const annualTPV = monthlyTPV * 12;
 
             // Receitas
-            const revenueAcquiring = (activeUsers * tpv * 0.015); // 1,5% do TPV
-            const averageBalance = (activeUsers * tpv * 0.15); // 15% do TPV
-            const revenueFloating = (averageBalance * 0.025 / 12); // 2,5% a.a.
-            const revenueInterchange = (activeUsers * tpv * 0.30 * 0.005); // 0,5% de 30% com cartão
+            const acqRevenue = monthlyTPV * 0.015;
+            const floatingRevenue = (monthlyTPV * 0.15) * (0.1451 / 12);
+            const interchangeRevenue = (monthlyTPV * 0.30) * 0.005;
+            
+            const creditRevenue = elements.serviceCredit.checked ? (activeUsers * 0.10 * 50 * 0.04) : 0;
+            const insuranceRevenue = elements.serviceInsurance.checked ? (activeUsers * 0.08 * 50 * 0.12) : 0;
+            const consortiumRevenue = elements.serviceConsortium.checked ? (activeUsers * 0.05 * 30000 * 0.01 / 12) : 0;
 
-            // Serviços adicionais
-            let revenueCredit = 0;
-            let revenueInsurance = 0;
-            let revenueConsortium = 0;
+            const grossRevenue = acqRevenue + floatingRevenue + interchangeRevenue + creditRevenue + insuranceRevenue + consortiumRevenue;
+            const operationalCosts = (activeUsers * 0.90 / 30) + (monthlyTPV * 0.0001) + (activeUsers * 0.08);
+            const monthlyNetRevenue = grossRevenue - operationalCosts;
+            const periodNetRevenue = monthlyNetRevenue * period;
+            const annualNetRevenue = monthlyNetRevenue * 12;
 
-            if (document.getElementById('service-credit').checked) {
-                const creditClients = Math.round(activeUsers * 0.10);
-                const creditTicket = 3000;
-                revenueCredit = (creditClients * creditTicket * 0.04 / 12); // 4% a.a.
-            }
+            // Atualizar valores
+            elements.usersValue.textContent = users.toLocaleString('pt-BR');
+            elements.tpvValue.textContent = formatCurrency(tpv);
+            elements.activationValue.textContent = (activation * 100).toFixed(0) + '%';
+            elements.periodValue.textContent = period;
 
-            if (document.getElementById('service-insurance').checked) {
-                const insuranceClients = Math.round(activeUsers * 0.08);
-                const insurancePremium = 50;
-                revenueInsurance = (insuranceClients * insurancePremium * 0.12); // 12% comissão
-            }
+            elements.annualRevenue.textContent = formatCurrency(annualNetRevenue);
+            elements.monthlyRevenue.textContent = formatCurrency(monthlyNetRevenue);
+            elements.activeUsers.textContent = activeUsers.toLocaleString('pt-BR');
+            elements.annualTPV.textContent = formatCurrency(annualTPV);
 
-            if (document.getElementById('service-consortium').checked) {
-                const consortiumClients = Math.round(activeUsers * 0.05);
-                const consortiumTicket = 25000;
-                revenueConsortium = (consortiumClients * consortiumTicket * 0.01); // 1% admin
-            }
-
-            // Custos operacionais
-            const costAccounts = activeUsers * 2.50;
-            const costTransactions = (activeUsers * tpv * 0.001); // 0,1% do TPV
-            const costCards = (activeUsers * 0.30 * 5); // R$ 5 por cliente com cartão
-            const costDefaultProvision = revenueCredit * 0.015; // 1,5% da receita de crédito
-
-            const totalCosts = costAccounts + costTransactions + costCards + costDefaultProvision;
-
-            // Receita total
-            const monthlyRevenueBruto = revenueAcquiring + revenueFloating + revenueInterchange + revenueCredit + revenueInsurance + revenueConsortium;
-            const monthlyRevenueNet = monthlyRevenueBruto - totalCosts;
-            const annualRevenue = monthlyRevenueNet * 12;
-            const annualTPV = activeUsers * tpv * 12;
-
-            // Atualizar display
-            usersValue.textContent = formatNumber(users);
-            tpvValue.textContent = formatCurrency(tpv);
-            activationValue.textContent = (activation * 100).toFixed(0) + '%';
-            periodValue.textContent = period;
-
-            document.getElementById('annualRevenue').textContent = formatCurrency(annualRevenue);
-            document.getElementById('monthlyRevenue').textContent = formatCurrency(monthlyRevenueNet);
-            document.getElementById('activeUsers').textContent = formatNumber(activeUsers);
-            document.getElementById('annualTPV').textContent = formatCurrency(annualTPV);
-
-            document.getElementById('revenueAcquiring').textContent = formatCurrency(revenueAcquiring);
-            document.getElementById('revenueFloating').textContent = formatCurrency(revenueFloating);
-            document.getElementById('revenueInterchange').textContent = formatCurrency(revenueInterchange);
-            document.getElementById('revenueCredit').textContent = formatCurrency(revenueCredit);
-            document.getElementById('revenueInsurance').textContent = formatCurrency(revenueInsurance);
-            document.getElementById('revenueConsortium').textContent = formatCurrency(revenueConsortium);
-            document.getElementById('operationalCosts').textContent = '-' + formatCurrency(totalCosts);
-            document.getElementById('netRevenue').textContent = formatCurrency(monthlyRevenueNet);
+            elements.acqRevenue.textContent = formatCurrency(acqRevenue);
+            elements.floatingRevenue.textContent = formatCurrency(floatingRevenue);
+            elements.interchangeRevenue.textContent = formatCurrency(interchangeRevenue);
+            elements.creditRevenue.textContent = formatCurrency(creditRevenue);
+            elements.insuranceRevenue.textContent = formatCurrency(insuranceRevenue);
+            elements.consortiumRevenue.textContent = formatCurrency(consortiumRevenue);
+            elements.operationalCosts.textContent = formatCurrency(-operationalCosts);
+            elements.netRevenue.textContent = formatCurrency(monthlyNetRevenue);
 
             // Gráfico
-            updateChart(period, monthlyRevenueNet, activeUsers, tpv);
+            updateChart(period, monthlyNetRevenue);
 
             // Insights
-            updateInsights(activeUsers, annualRevenue, monthlyRevenueNet, revenueAcquiring, monthlyRevenueBruto);
+            updateInsights(annualNetRevenue, activeUsers, acqRevenue, grossRevenue);
         }
 
-        function updateChart(months, monthlyRevenue, activeUsers, tpv) {
+        function updateChart(months, monthlyRevenue) {
             const labels = [];
             const revenueData = [];
             const cumulativeData = [];
             let cumulative = 0;
 
             for (let i = 1; i <= months; i++) {
-                labels.push(`Mês ${i}`);
+                labels.push('Mês ' + i);
                 revenueData.push(monthlyRevenue);
                 cumulative += monthlyRevenue;
                 cumulativeData.push(cumulative);
             }
 
-            const ctx = document.getElementById('revenueChart').getContext('2d');
-
             if (chart) {
                 chart.destroy();
             }
 
-            chart = new Chart(ctx, {
+            chart = new Chart(elements.revenueChart, {
                 type: 'line',
                 data: {
                     labels: labels,
@@ -630,8 +647,8 @@
                         {
                             label: 'Receita Mensal',
                             data: revenueData,
-                            borderColor: '#0066ff',
-                            backgroundColor: 'rgba(0, 102, 255, 0.1)',
+                            borderColor: '#0054E6',
+                            backgroundColor: 'rgba(0, 84, 230, 0.05)',
                             borderWidth: 2,
                             fill: true,
                             tension: 0.4,
@@ -643,7 +660,8 @@
                             borderColor: '#00d4aa',
                             backgroundColor: 'transparent',
                             borderWidth: 2,
-                            borderDash: [5, 5],
+                            fill: false,
+                            tension: 0.4,
                             yAxisID: 'y1'
                         }
                     ]
@@ -651,14 +669,12 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    interaction: {
-                        mode: 'index',
-                        intersect: false
-                    },
+                    interaction: { mode: 'index', intersect: false },
                     plugins: {
                         legend: {
                             display: true,
-                            position: 'top'
+                            position: 'top',
+                            labels: { usePointStyle: true, padding: 15 }
                         }
                     },
                     scales: {
@@ -666,21 +682,23 @@
                             type: 'linear',
                             display: true,
                             position: 'left',
-                            title: {
-                                display: true,
-                                text: 'Receita Mensal (R$)'
+                            title: { display: true, text: 'Receita Mensal (R$)' },
+                            ticks: {
+                                callback: function(value) {
+                                    return 'R$ ' + (value / 1000).toFixed(0) + 'k';
+                                }
                             }
                         },
                         y1: {
                             type: 'linear',
                             display: true,
                             position: 'right',
-                            title: {
-                                display: true,
-                                text: 'Receita Acumulada (R$)'
-                            },
-                            grid: {
-                                drawOnChartArea: false
+                            title: { display: true, text: 'Receita Acumulada (R$)' },
+                            grid: { drawOnChartArea: false },
+                            ticks: {
+                                callback: function(value) {
+                                    return 'R$ ' + (value / 1000).toFixed(0) + 'k';
+                                }
                             }
                         }
                     }
@@ -688,45 +706,26 @@
             });
         }
 
-        function updateInsights(activeUsers, annualRevenue, monthlyRevenue, revenueAcquiring, totalRevenue) {
-            const insights = [];
+        function updateInsights(annualRevenue, activeUsers, acqRevenue, grossRevenue) {
+            const insights = [
+                `Receita mensal líquida de ${formatCurrency(annualRevenue / 12)} com ${activeUsers.toLocaleString('pt-BR')} usuários ativos.`,
+                `Adquirência representa ${((acqRevenue / grossRevenue) * 100).toFixed(0)}% da receita bruta (modelo mais previsível).`,
+                elements.serviceCredit.checked ? 'Crédito ativado: penetração conservadora de 10% com margem de 4% a.a.' : 'Crédito desativado.',
+                elements.serviceInsurance.checked ? 'Seguro ativado: comissão de 12% sobre prêmios de R$ 50/mês.' : 'Seguro desativado.',
+                'Comece pelos usuários ativos antes de expandir para novos produtos.',
+                'Modelo conservador: premissas realistas baseadas em dados de mercado.'
+            ];
 
-            if (monthlyRevenue > 0) {
-                insights.push(`Receita mensal líquida de ${formatCurrency(monthlyRevenue)} com ${formatNumber(activeUsers)} usuários ativos.`);
-            }
-
-            const acquisitionPercentage = (revenueAcquiring / totalRevenue * 100).toFixed(0);
-            insights.push(`Adquirência representa ${acquisitionPercentage}% da receita bruta (modelo mais previsível).`);
-
-            if (document.getElementById('service-credit').checked) {
-                insights.push(`Crédito ativado: penetração conservadora de 10% com margem de 4% a.a.`);
-            }
-
-            if (document.getElementById('service-insurance').checked) {
-                insights.push(`Seguro ativado: comissão de 12% sobre prêmios de R$ 50/mês.`);
-            }
-
-            if (document.getElementById('service-consortium').checked) {
-                insights.push(`Consórcio ativado: taxa de administração de 1% a.m. com penetração de 5%.`);
-            }
-
-            insights.push(`Comece pelos usuários ativos antes de expandir para novos produtos.`);
-            insights.push(`Modelo conservador: premissas realistas baseadas em dados de mercado.`);
-
-            const insightsList = document.getElementById('insightsList');
-            insightsList.innerHTML = insights.map(insight => `<li>${insight}</li>`).join('');
+            elements.insightsList.innerHTML = insights.map(insight => `<li>${insight}</li>`).join('');
         }
 
         // Event listeners
-        usersInput.addEventListener('input', calculateRevenue);
-        tpvInput.addEventListener('input', calculateRevenue);
-        activationInput.addEventListener('input', calculateRevenue);
-        periodInput.addEventListener('input', calculateRevenue);
-        document.getElementById('service-credit').addEventListener('change', calculateRevenue);
-        document.getElementById('service-insurance').addEventListener('change', calculateRevenue);
-        document.getElementById('service-consortium').addEventListener('change', calculateRevenue);
+        [elements.users, elements.tpv, elements.activation, elements.period, elements.serviceCredit, elements.serviceInsurance, elements.serviceConsortium].forEach(el => {
+            el.addEventListener('input', calculateRevenue);
+            el.addEventListener('change', calculateRevenue);
+        });
 
-        // Calcular inicial
+        // Inicializar
         calculateRevenue();
     </script>
 </body>
